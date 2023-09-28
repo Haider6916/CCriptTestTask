@@ -1,10 +1,12 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useState} from 'react';
-import {Button, ToggleButton} from '../../components';
-import {useTextInput} from '../../Context';
+import { Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, ToggleButton } from '../../components';
+import { useTextInput } from '../../Context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './styles';
 
 const Hooks = () => {
-  const [isMetric, setIsMetric] = useState(true); // State in the main screen component
+  const [isMetric, setIsMetric] = useState(true);
   const {
     lbs,
     updateLbs,
@@ -20,92 +22,86 @@ const Hooks = () => {
   const meters = convertFtToMeters();
 
   const handleToggle = newValue => {
-    setIsMetric(newValue); // Update the state in the main screen component
+    setIsMetric(newValue);
   };
+
+  const saveData = async () => {
+    console.log('Saved');
+    await AsyncStorage.setItem('lbs', lbs);
+    await AsyncStorage.setItem('ft', ft);
+    await AsyncStorage.setItem('inches', inches);
+  };
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const savedLbs = await AsyncStorage.getItem('lbs');
+        const savedFt = await AsyncStorage.getItem('ft');
+        const savedInches = await AsyncStorage.getItem('inches');
+
+        if (savedLbs !== null) {
+          updateLbs(savedLbs);
+        }
+        if (savedFt !== null) {
+          updateFt(savedFt);
+        }
+        if (savedInches !== null) {
+          updateInches(savedInches);
+        }
+      } catch (error) {
+        console.error('Error loading data from AsyncStorage:', error);
+      }
+    };
+
+    loadData();
+  }, []);
+
   return (
     <View
-      style={{
-        backgroundColor: 'black',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 14,
-      }}>
-      <Text style={{color: 'white', marginBottom: 10}}>
+      style={styles.container}>
+      <Text style={styles.header}>
         Unit Converter (Using Context Api)
       </Text>
       {isMetric === true ? (
         <>
           <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 20,
-            }}>
+            style={styles.lbs}>
             <TextInput
               onChangeText={updateLbs}
               value={lbs}
-              // onChangeText={text => setReportData({...reportData, mg: text})}
               placeholder="lbs"
               placeholderTextColor="#ADADAD"
               keyboardType="numeric"
-              style={{
-                borderWidth: 1,
-                borderColor: 'white',
-                borderRadius: 25,
-                paddingLeft: 20,
-                flex: 1,
-                color: 'white',
-              }}
+              style={styles.lbsTextInput}
             />
-            <Text style={{color: 'white', fontSize: 16, marginLeft: 10}}>
+            <Text style={styles.lbsText}>
               lbs
             </Text>
           </View>
-          <View style={{flexDirection: 'row', width: '100%'}}>
+          <View style={styles.twoTextInput}>
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                flex: 0.48,
-                marginRight: 10,
-              }}>
+              style={styles.feet}>
               <TextInput
                 onChangeText={updateFt}
                 value={ft}
                 placeholder="ft"
                 placeholderTextColor="#ADADAD"
                 keyboardType="numeric"
-                style={{
-                  borderWidth: 1,
-                  borderColor: 'white',
-                  borderRadius: 25,
-                  paddingLeft: 20,
-                  flex: 1,
-                  color: 'white',
-                }}
+                style={styles.feetTextInput}
               />
-              <Text style={{color: 'white', marginLeft: 10}}>ft</Text>
+              <Text style={styles.feetTxt}>ft</Text>
             </View>
             <View
-              style={{flexDirection: 'row', alignItems: 'center', flex: 0.48}}>
+              style={styles.inches}>
               <TextInput
                 onChangeText={updateInches}
                 value={inches}
                 placeholder="in"
                 placeholderTextColor="#ADADAD"
                 keyboardType="numeric"
-                style={{
-                  borderWidth: 1,
-                  borderColor: 'white',
-                  borderRadius: 25,
-                  paddingLeft: 20,
-                  flex: 1,
-                  color: 'white',
-                }}
+                style={styles.inchesTxtInput}
               />
-              <Text style={{color: 'white', marginLeft: 10, fontSize: 16}}>
+              <Text style={styles.feetTxt}>
                 in
               </Text>
             </View>
@@ -114,71 +110,41 @@ const Hooks = () => {
       ) : (
         <>
           <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 20,
-            }}>
+            style={styles.kgs}>
             <TextInput
-              // value={reportData.mg}
-              // onChangeText={text => setReportData({...reportData, mg: text})}
               placeholder="kgs"
               placeholderTextColor="#ADADAD"
               keyboardType="numeric"
-              style={{
-                borderWidth: 1,
-                borderColor: 'white',
-                borderRadius: 25,
-                paddingLeft: 20,
-                flex: 1,
-                color: 'white',
-              }}
-              value={kgs.toString()} // Set the value to the converted kgs
+              style={styles.lbsTextInput}
+              value={kgs.toString()}
               onChangeText={updateLbs}
               editable={false}
             />
-            <Text style={{color: 'white', fontSize: 16, marginLeft: 10}}>
+            <Text style={styles.feetTxt}>
               kgs
             </Text>
           </View>
           <View
-            style={{
-              width: '100%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: 20,
-            }}>
+            style={styles.kgs}>
             <TextInput
-              // value={reportData.mg}
-              // onChangeText={text => setReportData({...reportData, mg: text})}
               placeholder="meters"
               placeholderTextColor="#ADADAD"
               keyboardType="numeric"
-              style={{
-                borderWidth: 1,
-                borderColor: 'white',
-                borderRadius: 25,
-                paddingLeft: 20,
-                flex: 1,
-                color: 'white',
-              }}
-              value={meters.toString()} // Set the value to the converted meters
+              style={styles.lbsTextInput}
+              value={meters.toString()}
               onChangeText={updateInches}
-              editable={false} // Update the inches value when the text changes
+              editable={false}
             />
-            <Text style={{color: 'white', fontSize: 16, marginLeft: 10}}>
+            <Text style={styles.feetTxt}>
               meter
             </Text>
           </View>
         </>
       )}
       <ToggleButton isMetric={isMetric} onToggle={handleToggle} />
-      <Button />
+      <Button onPress={saveData} />
     </View>
   );
 };
 
 export default Hooks;
-
-const styles = StyleSheet.create({});

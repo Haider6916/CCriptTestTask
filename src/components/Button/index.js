@@ -1,7 +1,9 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
-const Button = () => {
+const Button = ({
+  onPress,
+}) => {
   return (
     <TouchableOpacity
       style={{
@@ -11,8 +13,9 @@ const Button = () => {
         width: '50%',
         alignItems: 'center',
         borderRadius: 50,
-      }}>
-      <Text style={{color: 'white',fontSize: 16,}}>Save to Disk</Text>
+      }}
+      onPress={onPress}>
+      <Text style={{ color: '#ffffff', fontSize: 16, }}>Save to Disk</Text>
     </TouchableOpacity>
   );
 };

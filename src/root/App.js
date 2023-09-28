@@ -25,23 +25,23 @@ const App = () => {
         <Tab.Navigator
           screenOptions={() => ({
             tabBarLabelStyle: {
-              fontSize: 16, // Adjust the font size as needed
+              fontSize: 16, 
               fontWeight: 'bold',
-              marginBottom: 10, // You can set the font weight to 'bold' or other styles
+              marginBottom: 10,
             },
-            tabBarIcon: () => null, // Hide the icons
+            tabBarIcon: () => null, 
             tabBarStyle: {
-              backgroundColor: 'green', // Change the background color
+              backgroundColor: 'green', 
             },
-            tabBarActiveTintColor: 'white', // Set the selected tab text color
-            tabBarInactiveTintColor: 'gray', // Set the unselected tab text color
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: '#c0c0c0',
           })}>
           <Tab.Screen
             name="Hooks"
             component={HomeScreen}
             options={{
               headerShown: false,
-              tabBarLabel: 'Home', // You can customize the label for each tab here
+              tabBarLabel: 'Hooks', 
             }}
           />
           <Tab.Screen
@@ -49,7 +49,7 @@ const App = () => {
             component={SettingsScreen}
             options={{
               headerShown: false,
-              tabBarLabel: 'Settings', // Customize the label for this tab
+              tabBarLabel: 'MobX',
             }}
           />
         </Tab.Navigator>

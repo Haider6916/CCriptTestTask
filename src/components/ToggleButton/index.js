@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const ToggleButton = ({ isMetric, onToggle }) => {
 
-    const toggleButton = () => {
-        onToggle(!isMetric);
-      };
+  const toggleButton = () => {
+    onToggle(!isMetric);
+  };
 
   return (
     <View style={styles.container}>
@@ -20,7 +20,7 @@ const ToggleButton = ({ isMetric, onToggle }) => {
             styles.buttonText,
             isMetric ? styles.selectedText : styles.unselectedText,
           ]}>
-          Imperial 
+          Imperial
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -34,7 +34,7 @@ const ToggleButton = ({ isMetric, onToggle }) => {
             styles.buttonText,
             !isMetric ? styles.selectedText : styles.unselectedText,
           ]}>
-          Metric 
+          Metric
         </Text>
       </TouchableOpacity>
     </View>
@@ -46,21 +46,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:20,
+    marginTop: 20,
   },
   button1: {
     paddingHorizontal: 20,
     paddingVertical: 13,
     borderTopLeftRadius: 25,
     borderBottomLeftRadius: 25,
-    width:'50%',
+    width: '50%',
   },
   button2: {
     paddingHorizontal: 20,
     paddingVertical: 13,
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
-    width:'50%',
+    width: '50%',
   },
   selectedButton: {
     backgroundColor: 'green',
